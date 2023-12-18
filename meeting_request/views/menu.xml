@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Root Menus -->
+    <menuitem id="menu_meeting_request_root"
+              name="Meeting Request"
+              sequence="6"
+              />
+</odoo>

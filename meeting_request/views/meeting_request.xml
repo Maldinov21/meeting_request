@@ -1,0 +1,74 @@
+<odoo>
+    <data>
+        <!-- Form View Meeting Request -->
+        <record id="view_form_meeting_request" model="ir.ui.view">
+            <field name="name">meeting.request.form</field>
+            <field name="model">meeting.request</field>
+            <field name="arch" type="xml">
+                <form string="Meeting Request Form">
+                    <header>
+                        <field name="status" widget="statusbar" statusbar_visible="draft,pending,confirm,approve,cancel"/>
+                        <button string="Submit" type="object" class="oe_highlight" name="action_submit" attrs="{'invisible':[('status','not in',['draft'])]}"/>
+                        <button string="Confirm" type="object" class="oe_highlight" name="action_confirm" attrs="{'invisible':[('status','not in',['pending'])]}"/>
+                        <button string="Approve" type="object" class="oe_highlight" name="action_approve" attrs="{'invisible':[('status','not in',['confirm'])]}"/>
+                        <button string="Cancel" type="object" class="oe_highlight" name="action_cancel" attrs="{'invisible':[('status','not in',['confirm'])]}"/>
+                        <button string="Set to Draft" type="object" class="oe_highlight" name="set_draft" attrs="{'invisible':[('status','not in',['cancel'])]}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True, 'no_quick_create': True}"/>
+                                <field name="meeting_purpose"/>
+                                <field name="meeting_date_start"/>
+                                <field name="meeting_date_stop"/>
+                                <field name="description"/>
+                                <field name="attachment_pdf" widget="binary" filename="name"/>
+                            </group>
+                            <group>
+                                <field name="partner_ids"  widget="many2many_tags" attrs="{'invisible': [('status', 'not in', ['confirm', 'approve', 'cancel'])]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="qrcode_image" widget="image" options="{'no_create_edit': True}" attrs="{'invisible': [('status', 'not in', ['approve', 'cancel'])]}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View for Meeting Request -->
+        <record id="view_tree_meeting_request" model="ir.ui.view">
+            <field name="name">meeting.request.tree</field>
+            <field name="model">meeting.request</field>
+            <field name="arch" type="xml">
+                <tree string="Meeting Requests">
+                    <field name="partner_id"/>
+                    <field name="meeting_purpose"/>
+                    <field name="meeting_date_start"/>
+                    <field name="meeting_date_stop"/>
+                    <field name="description"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_tree_meeting_request" model="ir.actions.act_window">
+            <field name="name">Meeting Requests</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">meeting.request</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu Meeting Request -->
+        <menuitem id="menu_meeting_request" 
+                  name="Meeting Requests" 
+                  parent="meeting_request.menu_meeting_request_root" 
+                  sequence="10"/>
+
+        <menuitem id="menu_meeting_request_list" 
+                  name="Meeting Requests List" 
+                  parent="meeting_request.menu_meeting_request" 
+                  action="action_tree_meeting_request"/>
+    </data>
+
+</odoo>

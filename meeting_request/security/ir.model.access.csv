@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+meeting_request.access_meeting_request,access_meeting_request,meeting_request.model_meeting_request,base.group_user,1,1,1,1
+meeting_request.access_meeting_request_secretary,meeting_request,model_meeting_request,meeting_request.group_meeting_request_secretary,1,1,1,1
+meeting_request.access_meeting_request_front,meeting_request,model_meeting_request,meeting_request.group_meeting_request_front,1,0,0,0

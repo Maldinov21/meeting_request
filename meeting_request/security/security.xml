@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="0">
+
+    <record model="ir.module.category" id="module_category_meeting_request">
+        <field name="name">Meeting Management</field>
+    </record>
+
+    <record id="group_meeting_request_secretary" model="res.groups">
+        <field name="name">Corporate Secretary</field>
+        <field name="category_id" ref="meeting_request.module_category_meeting_request"/>
+        <field name="implied_ids" eval="[(4, ref('meeting_request.group_meeting_request_front'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record id="group_meeting_request_front" model="res.groups">
+        <field name="name">Front Office</field>
+        <field name="category_id" ref="meeting_request.module_category_meeting_request"/>
+    </record>
+
+    <record id="meeting_request_rule_corporate_secretary" model="ir.rule">
+        <field name="name">Meeting Request Corporate Secretary Rule</field>
+        <field name="model_id" ref="model_meeting_request"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('meeting_request.group_meeting_request_secretary'))]"/>
+    </record>
+
+    <record id="meeting_request_rule_front_office" model="ir.rule">
+        <field name="name">Meeting Request Front Office Rule</field>
+        <field name="model_id" ref="model_meeting_request"/>
+        <field name="domain_force">[('status', '=', 'approve')]</field>
+        <field name="groups" eval="[(4, ref('meeting_request.group_meeting_request_front'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+</data>
+</odoo>
